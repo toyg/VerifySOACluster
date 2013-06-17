@@ -1,0 +1,4 @@
+JOC-Shutdown
+WSM-PM_Cluster,OSB_Cluster,BAM_Cluster,AdminServer,SOA_Cluster
+DMSShutdown
+WSM-PM_Cluster,OSB_Cluster,BAM_Cluster,AdminServer,SOA_Cluster

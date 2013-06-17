@@ -1,0 +1,164 @@
+FMW Welcome Page Application#11.1.0.0.0
+AdminServer
+DMS Application#11.1.1.1.0
+WSM-PM_Cluster,OSB_Cluster,BAM_Cluster,AdminServer,SOA_Cluster
+wsil-wls
+WSM-PM_Cluster,OSB_Cluster,BAM_Cluster,AdminServer,SOA_Cluster
+wsm-pm
+WSM-PM_Cluster
+em
+AdminServer
+NonJ2EEManagement#11.1.1
+BAM_Cluster,AdminServer
+FileAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+DbAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+JmsAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+AqAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+FtpAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+SocketAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+MQSeriesAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+OracleAppsAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+OracleBamAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+usermessagingserver
+BAM_Cluster,SOA_Cluster
+usermessagingdriver-email
+BAM_Cluster,SOA_Cluster
+usermessagingdriver-xmpp
+optional
+usermessagingdriver-smpp
+optional
+usermessagingdriver-voicexml
+optional
+usermessagingdriver-extension
+optional
+UMSAdapter
+OSB_Cluster,AdminServer,SOA_Cluster
+soa-infra
+SOA_Cluster
+worklistapp
+SOA_Cluster
+b2bui
+SOA_Cluster
+Healthcare UI
+SOA_Cluster
+DefaultToDoTaskFlow
+SOA_Cluster
+composer
+SOA_Cluster
+OracleBPMProcessRolesApp
+SOA_Cluster
+OracleBPMComposerRolesApp
+SOA_Cluster
+OracleBPMWorkspace
+SOA_Cluster
+BPMComposer
+SOA_Cluster
+SimpleApprovalTaskFlow
+SOA_Cluster
+composer
+SOA_Cluster
+OracleBPMProcessRolesApp
+SOA_Cluster
+OracleBPMComposerRolesApp
+SOA_Cluster
+OracleBPMWorkspace
+SOA_Cluster
+BPMComposer
+SOA_Cluster
+SimpleApprovalTaskFlow
+SOA_Cluster
+ALSB Cluster Singleton Marker Application
+WLS_OSB1
+ALSB Domain Singleton Marker Application
+WLS_OSB1
+ALSB Framework Starter Application
+OSB_Cluster,AdminServer
+ALSB Coherence Cache Provider
+OSB_Cluster
+XBus Kernel
+OSB_Cluster,AdminServer
+ALSB UDDI Manager
+AdminServer
+ALSB Subscription Listener
+OSB_Cluster
+JMS Reporting Provider
+OSB_Cluster
+Message Reporting Purger
+WLS_OSB1
+Ftp Transport Provider
+OSB_Cluster,AdminServer
+SFTP Transport Provider
+OSB_Cluster,AdminServer
+Email Transport Provider
+OSB_Cluster,AdminServer
+File Transport Provider
+OSB_Cluster,AdminServer
+MQ Transport Provider
+OSB_Cluster,AdminServer
+EJB Transport Provider
+OSB_Cluster,AdminServer
+Tuxedo Transport Provider
+OSB_Cluster,AdminServer
+ALDSP Transport Provider
+OSB_Cluster,AdminServer
+SB Transport Provider
+OSB_Cluster,AdminServer
+WS Transport Provider
+OSB_Cluster,AdminServer
+WS Transport Async Applcation
+OSB_Cluster
+FLOW Transport Provider
+OSB_Cluster,AdminServer
+BPEL 10g Transport Provider
+OSB_Cluster,AdminServer
+JCA Transport Provider
+OSB_Cluster,AdminServer
+JEJB Transport Provider
+OSB_Cluster,AdminServer
+SOA-DIRECT Transport Provider
+OSB_Cluster,AdminServer
+ALSB Routing
+OSB_Cluster,AdminServer
+ALSB Transform
+OSB_Cluster,AdminServer
+ALSB Publish
+OSB_Cluster,AdminServer
+ALSB Logging
+OSB_Cluster,AdminServer
+ALSB Resource
+OSB_Cluster
+ALSB WSIL
+OSB_Cluster
+ServiceBus_Console
+AdminServer
+ALSB Test Framework
+OSB_Cluster,AdminServer
+oracle-bam#11.1.1
+BAM_Cluster
+ExternalPartnerSupplierEjb
+SOA_Cluster
+WebServices_WebLogicFusionOrderDemo_CreditCardAuthorization
+SOA_Cluster
+poadfbc3levels_bcProfile1
+???
+ps5app
+SOA_Cluster
+FutureParticipantSimpleTaskForm
+SOA_Cluster
+AMXEDGTaskForm
+SOA_Cluster
+VacationRequestTaskFlow
+SOA_Cluster
+OWSM Policy Support in OSB Initializer Aplication
+OSB_Cluster,AdminServer
+frevvo
+SOA_Cluster
