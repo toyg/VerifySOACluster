@@ -1,2 +1,0 @@
-Module-FMWDFW
-WSM-PM_Cluster,OSB_Cluster,BAM_Cluster,AdminServer,SOA_Cluster
