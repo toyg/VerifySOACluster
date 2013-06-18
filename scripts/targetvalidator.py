@@ -5,6 +5,7 @@ from xml.dom import minidom
 from java.net import URL
 from javax.xml.xpath import XPathFactory, XPath, XPathConstants
 from oracle.xml.parser.v2 import DOMParser
+from java.io import FileReader
 
 from tvutils import XhtmlNamespaceResolver
 
@@ -32,7 +33,7 @@ class TargetValidator(object):
         self.mappings['Application']['frevvo'] = [self.LOCALSERVERS['SOA_Cluster']]
 
         # add OWSM Policy Support
-        self.mappings['Application']['OWSM Policy Support in OSB Initializer Aplication'] = [
+        self.mappings['Application']['OWSM Policy Support in OSB Initializer Application'] = [
             self.LOCALSERVERS['SOA_Cluster'],
             self.LOCALSERVERS['AdminServer']
         ]
@@ -106,9 +107,6 @@ class TargetValidator(object):
             # ... all done, save it!
             self.mappings[mappingTarget][item] = targets
 
-        # cleanup required by doc errors
-        self._fixMappings()
-
     def downloadMapping(self):
         # download and parse the page
         urlObj = URL(self.url)
@@ -119,6 +117,8 @@ class TargetValidator(object):
         for itemType in self.PARSEMAP.keys():
             tableName, sysMethod = self.PARSEMAP[itemType]
             self._parseMapping(doc, tableName, itemType)
+       # cleanup required by doc errors
+        self._fixMappings()
 
     def saveMapping(self, fileName):
         domImp = minidom.getDOMImplementation()
@@ -145,8 +145,30 @@ class TargetValidator(object):
 
     # TODO: read the produced xml and change the mappings object
     def loadMapping(self, fileName):
+        # first, clean up everything
+        self.mappings = {}
+
+        fr = FileReader(fileName)
         parser = DOMParser()
-        parser.parse(fileName)
+        parser.parse(fr)
+        doc = parser.getDocument()
+        e = doc.documentElement
+        itNodes = e.getChildrenByTagName('itemType')
+        for i in xrange(0,itNodes.getLength()):
+            iType = itNodes.item(i)
+            typeName = iType.getAttribute('name')
+            self.mappings[typeName] = {}
+            iNodes = iType.getChildrenByTagName('item')
+            for n in xrange(0, iNodes.getLength()):
+                item = iNodes.item(n)
+                itemName = item.getAttribute('name')
+                self.mappings[typeName][itemName] = []
+                tNodes = item.getChildrenByTagName('target')
+                for t in xrange(0, tNodes.getLength()):
+                    target = tNodes.item(t)
+                    self.mappings[typeName][itemName].append(target.getAttribute('name'))
+
+
 
 
     def validateDeployments(self, itemType):
