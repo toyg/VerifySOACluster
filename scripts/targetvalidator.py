@@ -43,6 +43,9 @@ class TargetValidator(object):
 
     def _parseMapping(self, domObject, tableTitle, mappingTarget):
         """Find the table for a given target type, parse it and save the mappings
+        :param domObject: DOM object supporting XPath manipulation
+        :param tableTitle: title of table to search for
+        :param mappingTarget: item type to associate
         """
 
         # get all rows
@@ -78,6 +81,7 @@ class TargetValidator(object):
             tableName, sysMethod = self.PARSEMAP[itemType]
             self._parseMapping(doc, tableName, itemType)
 
+    # TODO: save/load is currently quite crude, would be better to generate human-readable files
     def saveMapping(self, fileName):
         fp = codecs.open(fileName, 'w', encoding='utf-8')
         pickle.dump(self.mappings, fp, 0)
@@ -90,6 +94,8 @@ class TargetValidator(object):
 
     def validateDeployments(self, itemType):
         """ take a type of items to check, and return a dictionary with 'missing' and 'extra' targets
+        :param itemType: string indicating the type of object to test
+        :rtype result: dict {'missing': {'item name': 'missing targets'}, 'extra': {'item name': 'extra targets'} }
         """
         tableName, getItems = self.PARSEMAP[itemType]
         result = {'missing': {}, 'extra': {}}
@@ -107,6 +113,7 @@ class TargetValidator(object):
 
     def prettyValidateDeployments(self,itemType):
         """ same as validateDeployments, but prints results to terminal
+        :param itemType: string indicating the type of object to test
         """
         result = self.validateDeployments(itemType)
         if len(result['missing'].keys()) > 0:
