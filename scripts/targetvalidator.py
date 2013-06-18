@@ -13,6 +13,41 @@ class TargetValidator(object):
     clustered SOA environments.
     """
 
+    def _fixMappings(self):
+        # unfortunately, the doc is wrong! ad-hoc fixes here
+
+        # singletons
+        for app in ['ALSB Cluster Singleton Marker Application',
+                    'ALSB Domain Singleton Marker Application',
+                    'Message Reporting Purger']:
+            # remove target OSB_Cluster
+            self.mappings['Application'][app] = [
+                s for s in self.mappings['Application'][app] if s != self.LOCALSERVERS['OSB_Cluster']
+            ]
+            # add target WLS_OSB1
+            self.mappings['Application'][app].append(self.LOCALSERVERS['WLS_OSB1'])
+
+        # add frevvo app
+        self.mappings['Application']['frevvo'] = [self.LOCALSERVERS['SOA_Cluster']]
+
+        # add OWSM Policy Support
+        self.mappings['Application']['OWSM Policy Support in OSB Initializer Aplication'] = [
+            self.LOCALSERVERS['SOA_Cluster'],
+            self.LOCALSERVERS['AdminServer']
+        ]
+
+        # add missing lib
+        self.mappings['Library']['oracle.bi.adf.model.slib#1.0-AT-11.1.1.2-DOT-0'] = [
+            self.LOCALSERVERS['SOA_Cluster'],
+            self.LOCALSERVERS['OSB_Cluster'],
+            self.LOCALSERVERS['BAM_Cluster'],
+            self.LOCALSERVERS['AdminServer']
+        ]
+
+        #add missing lib target
+        self.mappings['Library']['oracle.bi.adf.model.slib#1.0-AT-11.1.1.2-DOT-0'].append(
+            self.LOCALSERVERS['BAM_Cluster'])
+
     def __init__(self, cmo, localServers):
 
         # default page for 11.1.1.x
@@ -29,7 +64,7 @@ class TargetValidator(object):
             'StartupClass':     ('Oracle SOA Enterprise Deployment Startup Class Targets',  cmo.getStartupClasses),
             'ShutdownClass':    ('SOA EDG targeting shutdown class',                        cmo.getShutdownClasses),
             'JMS Resource':     ('JMS System Resource Targets',                             cmo.getJMSSystemResources),
-            'WLDF Resource':    ('WLDF System Resource Targets',                            cmo.getWLDFSystemResources)
+            'WLDF Resource':    ('WLDF System Resource Targets',                            cmo.getWLDFSystemResources),
         }
 
         # where we'll store the mappings
@@ -69,6 +104,9 @@ class TargetValidator(object):
             targets = [self.LOCALSERVERS[tName] for tName in tds.item(1).textContent.strip().split(',') if tName in self.LOCALSERVERS]
             # ... all done, save it!
             self.mappings[mappingTarget][item] = targets
+
+        # cleanup required by doc errors
+        self._fixMappings()
 
     def downloadMapping(self):
         # download and parse the page
