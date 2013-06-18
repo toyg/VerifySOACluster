@@ -1,5 +1,33 @@
 # -*- coding: utf-8 -*-
-import codecs, pickle
+"""
+Library to download target definitions from Oracle documentation and use it
+to check validity of a SOA clustered deployment.
+"""
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Copyright @ 2103 Giacomo Lacava - g.lacava@gmail.com
+
+__author__ = "Giacomo Lacava"
+__copyright__ = "Copyright 2013 Giacomo Lacava"
+__credits__ = ["Giacomo Lacava", "Antony Reynolds"]
+__license__ = "GPL"
+__version__ = "1.0"
+__maintainer__ = "Giacomo Lacava"
+__email__ = "g.lacava@gmail.com"
+__status__ = "Development"
+
+import codecs
 from xml.dom import minidom
 
 from java.net import URL
@@ -61,12 +89,12 @@ class TargetValidator(object):
         # map item types to table in doc and actual retrieval method
         self.PARSEMAP = {
             # item type : ( table title, method to retrieve actual system items )
-            'Application':      ('SOA Application Targets',                                 cmo.getAppDeployments),
-            'Library':          ('Oracle SOA Enterprise Deployment Targeting Library',      cmo.getLibraries),
-            'StartupClass':     ('Oracle SOA Enterprise Deployment Startup Class Targets',  cmo.getStartupClasses),
-            'ShutdownClass':    ('SOA EDG targeting shutdown class',                        cmo.getShutdownClasses),
-            'JMS Resource':     ('JMS System Resource Targets',                             cmo.getJMSSystemResources),
-            'WLDF Resource':    ('WLDF System Resource Targets',                            cmo.getWLDFSystemResources),
+            'Application': ('SOA Application Targets', cmo.getAppDeployments),
+            'Library': ('Oracle SOA Enterprise Deployment Targeting Library', cmo.getLibraries),
+            'StartupClass': ('Oracle SOA Enterprise Deployment Startup Class Targets', cmo.getStartupClasses),
+            'ShutdownClass': ('SOA EDG targeting shutdown class', cmo.getShutdownClasses),
+            'JMS Resource': ('JMS System Resource Targets', cmo.getJMSSystemResources),
+            'WLDF Resource': ('WLDF System Resource Targets', cmo.getWLDFSystemResources),
         }
 
         # where we'll store the mappings
@@ -97,13 +125,13 @@ class TargetValidator(object):
 
         # for each row...
         for i in xrange(0, rowNodes.getLength()):
-
             # ... get all tds ...
             tds = rowNodes.item(i).getChildrenByTagName('td')
             # ... textContent will have \n at both ends, strip it ...
             item = tds.item(0).textContent.strip()
             # ... replace example names with real ones, so that we get a list of targets ...
-            targets = [self.LOCALSERVERS[tName] for tName in tds.item(1).textContent.strip().split(',') if tName in self.LOCALSERVERS]
+            targets = [self.LOCALSERVERS[tName] for tName in tds.item(1).textContent.strip().split(',') if
+                       tName in self.LOCALSERVERS]
             # ... all done, save it!
             self.mappings[mappingTarget][item] = targets
 
@@ -117,24 +145,24 @@ class TargetValidator(object):
         for itemType in self.PARSEMAP.keys():
             tableName, sysMethod = self.PARSEMAP[itemType]
             self._parseMapping(doc, tableName, itemType)
-       # cleanup required by doc errors
+            # cleanup required by doc errors
         self._fixMappings()
 
     def saveMapping(self, fileName):
         domImp = minidom.getDOMImplementation()
-        dom = domImp.createDocument(None,"mappings",None)
+        dom = domImp.createDocument(None, "mappings", None)
         root = dom.documentElement
         for itemType in self.mappings:
             mapElement = dom.createElement('itemType')
-            mapElement.setAttribute('name',itemType)
+            mapElement.setAttribute('name', itemType)
             root.appendChild(mapElement)
             for item in self.mappings[itemType]:
                 mapItem = dom.createElement('item')
-                mapItem.setAttribute('name',item)
+                mapItem.setAttribute('name', item)
                 mapElement.appendChild(mapItem)
                 for target in self.mappings[itemType][item]:
                     mapTarget = dom.createElement('target')
-                    mapTarget.setAttribute('name',target)
+                    mapTarget.setAttribute('name', target)
                     mapItem.appendChild(mapTarget)
 
         fp = codecs.open(fileName, 'w', encoding='utf-8')
@@ -153,7 +181,7 @@ class TargetValidator(object):
         doc = parser.getDocument()
         e = doc.documentElement
         itNodes = e.getChildrenByTagName('itemType')
-        for i in xrange(0,itNodes.getLength()):
+        for i in xrange(0, itNodes.getLength()):
             iType = itNodes.item(i)
             typeName = iType.getAttribute('name')
             self.mappings[typeName] = {}
@@ -166,9 +194,6 @@ class TargetValidator(object):
                 for t in xrange(0, tNodes.getLength()):
                     target = tNodes.item(t)
                     self.mappings[typeName][itemName].append(target.getAttribute('name'))
-
-
-
 
     def validateDeployments(self, itemType):
         """ take a type of items to check, and return a dictionary with 'missing' and 'extra' targets
@@ -189,7 +214,7 @@ class TargetValidator(object):
                 result['extra'][itemName] = extraTargets
         return result
 
-    def prettyValidateDeployments(self,itemType):
+    def prettyValidateDeployments(self, itemType):
         """ same as validateDeployments, but prints results to terminal
         :param itemType: string indicating the type of object to test
         """
