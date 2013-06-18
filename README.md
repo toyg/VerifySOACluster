@@ -45,6 +45,10 @@ Launch vtWLST.cmd/.sh, then:
     >>> # validate specific deployment type. Use .prettyValidateDeployments() for printed output
     >>> tv.validateDeployments('Application')
     {'missing': {'Ftp Transport Provider': ['OSB_Cluster'] }, 'extra': {'OracleBPMWorkspace': ['AdminServer']}
+
+    >>> # available types
+    >>> tv.mappings.keys()
+    ['JMS Resource', 'WLDF Resource', 'ShutdownClass', 'Application', 'StartupClass', 'Library']
   
 Feedback
 ========
