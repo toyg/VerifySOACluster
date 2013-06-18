@@ -30,17 +30,17 @@ Launch vtWLST.cmd/.sh, then:
     >>> connect(admin_username,admin_password,admin_url)
     >>> domainConfig()
 
-    >>> from targetvalidator import TargetValidator
+    >>> from scripts.targetvalidator import TargetValidator
     >>> tv = TargetValidator(cmo,localServers)
 
     >>> # download mappings from the Oracle site
     >>> tv.downloadMapping()
 
     >>> # save mappings locally
-    >>> tv.saveMapping('/path/to/mapfile')
+    >>> tv.saveMapping('/path/to/mapfile.xml')
 
     >>> # load previously-saved mappings
-    >>> tv.loadMapping('/path/to/mapfile')
+    >>> tv.loadMapping('/path/to/mapfile.xml')
 
     >>> # validate specific deployment type. Use .prettyValidateDeployments() for printed output
     >>> tv.validateDeployments('Application')
@@ -54,3 +54,8 @@ Feedback
 ========
 
 Feel free to post issues or ping me at g.lacava@gmail.com .
+
+License
+=======
+
+All files are @2013 Giacomo Lacava, and distributed under the terms of the General Public License (GPL) version 3.
