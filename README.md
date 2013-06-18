@@ -3,7 +3,7 @@ VerifySOACluster
 
 Scripts to validate SOA cluster configuration by using Oracle-documented lists of targets for all object types
 
-Inspired by [Anthony Reynolds' blog post](https://blogs.oracle.com/reynolds/entry/target_verification).
+Inspired by [Antony Reynolds' blog post](https://blogs.oracle.com/reynolds/entry/target_verification).
 
 Quick usage
 -----------
