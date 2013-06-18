@@ -143,7 +143,6 @@ class TargetValidator(object):
         #cleanup to save memory
         dom.unlink()
 
-    # TODO: read the produced xml and change the mappings object
     def loadMapping(self, fileName):
         # first, clean up everything
         self.mappings = {}
