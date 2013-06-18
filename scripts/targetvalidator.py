@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import codecs, pickle
+from xml.dom import minidom
 
 from java.net import URL
 from javax.xml.xpath import XPathFactory, XPath, XPathConstants
@@ -119,16 +120,34 @@ class TargetValidator(object):
             tableName, sysMethod = self.PARSEMAP[itemType]
             self._parseMapping(doc, tableName, itemType)
 
-    # TODO: save/load is currently quite crude, would be better to generate human-readable files
     def saveMapping(self, fileName):
-        fp = codecs.open(fileName, 'w', encoding='utf-8')
-        pickle.dump(self.mappings, fp, 0)
-        fp.close()
+        domImp = minidom.getDOMImplementation()
+        dom = domImp.createDocument(None,"mappings",None)
+        root = dom.documentElement
+        for itemType in self.mappings:
+            mapElement = dom.createElement('itemType')
+            mapElement.setAttribute('name',itemType)
+            root.appendChild(mapElement)
+            for item in self.mappings[itemType]:
+                mapItem = dom.createElement('item')
+                mapItem.setAttribute('name',item)
+                mapElement.appendChild(mapItem)
+                for target in self.mappings[itemType][item]:
+                    mapTarget = dom.createElement('target')
+                    mapTarget.setAttribute('name',target)
+                    mapItem.appendChild(mapTarget)
 
-    def loadMapping(self, fileName):
-        fp = codecs.open(fileName, 'r', encoding='utf-8')
-        self.mappings = pickle.load(fp)
+        fp = codecs.open(fileName, 'w', encoding='utf-8')
+        dom.writexml(fp, '', ' ', "\n")
         fp.close()
+        #cleanup to save memory
+        dom.unlink()
+
+    # TODO: read the produced xml and change the mappings object
+    def loadMapping(self, fileName):
+        parser = DOMParser()
+        parser.parse(fileName)
+
 
     def validateDeployments(self, itemType):
         """ take a type of items to check, and return a dictionary with 'missing' and 'extra' targets
